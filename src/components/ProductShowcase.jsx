@@ -26,6 +26,10 @@ export default function ProductShowcase({ product }) {
 
   const accent = product.colors?.[colorIndex]?.hex ?? '#8E7BA8'
 
+  const allOutOfStock =
+    (product.sizes?.length ?? 0) > 0 &&
+    product.sizes.every((s) => (s.stock ?? 0) <= 0)
+
   const formattedPrice = useMemo(
     () =>
       new Intl.NumberFormat('tr-TR', {
@@ -65,8 +69,13 @@ export default function ProductShowcase({ product }) {
             alt={product.name}
             draggable={false}
             className="relative z-10 w-[70%] max-w-md select-none drop-shadow-[0_40px_60px_rgba(0,0,0,0.55)] sm:w-[75%]"
-            style={{ transformStyle: 'preserve-3d' }}
+            style={{ transformStyle: 'preserve-3d', opacity: allOutOfStock ? 0.45 : 1 }}
           />
+          {allOutOfStock && (
+            <span className="absolute z-20 rounded-full border border-bone/40 bg-obsidian/80 px-4 py-1.5 font-mono text-xs uppercase tracking-widest2 text-bone">
+              Stokta Yok
+            </span>
+          )}
         </motion.div>
 
         {/* Info panel — staggered fade-in-up on load */}
@@ -128,10 +137,11 @@ export default function ProductShowcase({ product }) {
               product={product}
               selectedSize={selectedSize}
               selectedColor={product.colors?.[colorIndex]}
+              outOfStock={allOutOfStock}
             />
           </motion.div>
         </motion.div>
       </div>
     </section>
   )
-      }
+          }
