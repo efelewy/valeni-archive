@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-obsidian text-bone font-body antialiased;
+  overflow-x: hidden;
+}
+
+/* Signature grain texture — sits above every page for archival, filmic texture */
+.grain-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background-image: var(--tw-bg-grain, none);
+  mix-blend-mode: overlay;
+}
+
+::selection {
+  background: #f3efe7;
+  color: #0a0a0b;
+}
+
+/* Visible keyboard focus everywhere */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #f3efe7;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.font-display {
+  letter-spacing: -0.01em;
+}
+
+@layer components {
+  .input {
+    @apply w-full rounded-lg border border-archive-600 bg-obsidian px-4 py-3 text-sm text-bone outline-none transition-colors focus:border-bone;
+  }
+}
+
+/* Custom scrollbar to keep the archive feel consistent */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0b;
+}
+::-webkit-scrollbar-thumb {
+  background: #4a463e;
+  border-radius: 999px;
+}
