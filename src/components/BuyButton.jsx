@@ -5,12 +5,18 @@ const SHOPIER_BASE_URL =
   import.meta.env.VITE_SHOPIER_BASE_URL ||
   'https://www.shopier.com/ShowProductNew/products.php?id='
 
-export default function BuyButton({ product, selectedSize, selectedColor }) {
-  const disabled = !selectedSize
+export default function BuyButton({ product, selectedSize, selectedColor, outOfStock }) {
+  const disabled = outOfStock || !selectedSize
 
   const href = product?.shopier_id
     ? `${SHOPIER_BASE_URL}${product.shopier_id}`
     : '#'
+
+  const label = outOfStock
+    ? 'Stokta Yok'
+    : disabled
+    ? 'Önce beden seçin'
+    : 'Shopier ile Öde'
 
   return (
     <motion.a
@@ -28,7 +34,7 @@ export default function BuyButton({ product, selectedSize, selectedColor }) {
           : 'bg-bone text-obsidian'
       ].join(' ')}
     >
-      {disabled ? 'Önce beden seçin' : 'Shopier ile Öde'}
+      {label}
       {!disabled && (
         <ArrowUpRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
       )}
